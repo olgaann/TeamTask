@@ -43,11 +43,25 @@ public class Product {
                 continue;
             }
 
-            if (productNum < 0 || productNum > products.length - 1 || productCount <= 0) {
-                System.out.println("Проверьте введенные числа: номер товара и количество");
+            if (productNum < 0 || productNum > products.length - 1) {
+                System.out.println("Проверьте введенные числа: номер товара");
                 continue;
             }
-            purchase[productNum] += productCount;
+
+            //ниже добавлена возможность вводить отрицательное или нулевое значение товара:
+            //если мы введем ноль, то корзина обнулится
+            //если мы введем слишком большое отрицательное значение, то корзина тоже обнулится
+            // к примеру, в корзине было 2, добавили -7, потом добавили +5
+            // тогда итоговый результа будет +5, так как при добалении -7 корзина стала равна нулю
+
+            if(productCount == 0) { // если кол-во товара ввели ноль:
+                purchase[productNum] = productCount; //то в массиве кол-во товара становится ноль
+            } else if (productCount < 0) { //если кол-во товара ввели со знаком минус:
+                purchase[productNum] = Math.max(purchase[productNum] + productCount, 0); // складываем текущее плюсовое кол-во с введенным отрицательным, результат записываем в массив. Если результат отрицательный - меняем на ноль
+            } else { //если кол-во товара ввели положительное
+                purchase[productNum] += productCount; //прибавляем его к текущему
+            }
+
         }
         System.out.println();
         System.out.println("Ваша корзина:");
