@@ -3,10 +3,16 @@ import java.util.Scanner;
 public class Product {
     private String[] products;
     private int[] prices;
+    private String[] sale;
 
-    public Product(String[] products, int[] prices) {
+    public Product(String[] products, int[] prices, String[] sale) {
         this.products = products;
         this.prices = prices;
+        this.sale = sale;
+    }
+
+    public void setSale(String[] sale) {
+        this.sale = sale;
     }
 
     public void productBasket() {
@@ -21,7 +27,7 @@ public class Product {
 
 
         while (true) {
-            System.out.println("Введите номер товара и количество или введите 'end'");
+            System.out.println("Введите через пробел номер товара и количество товара или введите 'end' для завершения покупки");
             String input = scanner.nextLine();
             if ("end".equals(input)) {
                 break;
@@ -68,15 +74,31 @@ public class Product {
         int totalSum = 0;
         for (int i = 0; i < purchase.length; i++) {
             if (purchase[i] > 0) {
+                int amount;
+                if (purchase[i] > 2 && isSale(products[i])) {
+                    amount = ((purchase[i] - purchase[i] / 3) * prices[i]);
+                    prices[i] = amount / purchase[i];
+                } else {
+                    amount = purchase[i] * prices[i];
+                }
                 System.out.println(
                         products[i] + " " +
                                 purchase[i] + " шт " +
                                 prices[i] + " руб/шт " +
-                                purchase[i] * prices[i] + " руб в сумме");
-                totalSum += (purchase[i] * prices[i]);
+                                amount + " руб в сумме");
+                totalSum += amount;
             }
         }
         System.out.println("Итого " + totalSum + " руб");
+    }
+
+    public boolean isSale(String product) {
+        for (String elem : sale) {
+            if (elem != null && elem.equals(product)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
