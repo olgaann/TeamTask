@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class Product {
     private String[] products;
-    private int[] prices;
+    private double[] prices;
     private String[] sale;
 
-    public Product(String[] products, int[] prices, String[] sale) {
+    public Product(String[] products, double[] prices, String[] sale) {
         this.products = products;
         this.prices = prices;
         this.sale = sale;
@@ -60,9 +60,9 @@ public class Product {
             // к примеру, в корзине было 2, добавили -7, потом добавили +5
             // тогда итоговый результат будет +5, так как при добалении -7 корзина стала равна нулю
 
-            if(productCount == 0) { // если кол-во товара ввели ноль:
+            if (productCount == 0) { // если кол-во товара ввели ноль:
                 purchase[productNum] = productCount; //то в массиве кол-во товара становится ноль
-            } else if(productCount < 0) { //если кол-во товара ввели со знаком минус:
+            } else if (productCount < 0) { //если кол-во товара ввели со знаком минус:
                 purchase[productNum] = Math.max(purchase[productNum] + productCount, 0); // складываем текущее плюсовое кол-во с введенным отрицательным, результат записываем в массив. Если результат отрицательный - меняем на ноль
             } else { //если кол-во товара ввели положительное
                 purchase[productNum] += productCount; //прибавляем его к текущему
@@ -71,10 +71,10 @@ public class Product {
         }
         System.out.println();
         System.out.println("Ваша корзина:");
-        int totalSum = 0;
+        double totalSum = 0;
         for (int i = 0; i < purchase.length; i++) {
             if (purchase[i] > 0) {
-                int amount;
+                double amount;
                 if (purchase[i] > 2 && isSale(products[i])) {
                     amount = ((purchase[i] - purchase[i] / 3) * prices[i]);
                     prices[i] = amount / purchase[i];
