@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Product {
@@ -69,9 +70,26 @@ public class Product {
             }
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         System.out.println();
         System.out.println("Ваша корзина:");
         double totalSum = 0;
+        DecimalFormat df = new DecimalFormat("0.00");
         for (int i = 0; i < purchase.length; i++) {
             if (purchase[i] > 0) {
                 double amount;
@@ -81,15 +99,18 @@ public class Product {
                 } else {
                     amount = purchase[i] * prices[i];
                 }
+
                 System.out.println(
                         products[i] + " " +
                                 purchase[i] + " шт " +
-                                prices[i] + " руб/шт " +
-                                amount + " руб в сумме");
+                                df.format(prices[i]) + " руб/шт " +
+                                df.format(amount) + " руб в сумме");
+
                 totalSum += amount;
+
             }
         }
-        System.out.println("Итого " + totalSum + " руб");
+        System.out.println("Итого " + df.format(totalSum) + " руб");
     }
 
     public boolean isSale(String product) {
