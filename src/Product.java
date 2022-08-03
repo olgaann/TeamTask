@@ -16,18 +16,34 @@ public class Product {
     }
 
     public void productBasket() {
-        System.out.println("Список возможных товаров для покупки:");
+        StringBuilder sb1 = new StringBuilder();
+        sb1.append("Список возможных товаров для покупки: \n");
         for (int i = 0; i < products.length; i++) {
-            System.out.println((i + 1) + ". " + products[i] + " "
-                    + prices[i] + " руб/шт");
-
+            sb1.append(i + 1);
+            sb1.append(". ");
+            sb1.append(products[i]);
+            sb1.append(" ");
+            sb1.append(prices[i]);
+            sb1.append(" руб/шт\n");
         }
+        sb1.append("\nАкция 3 по цене 2 на товары: \n");
+        for (int i = 0; i < sale.length; i++) {
+            sb1.append(sale[i]);
+            if (i != sale.length - 1) {
+                sb1.append(", ");
+            } else {
+                sb1.append(". \n");
+            }
+        }
+
+        System.out.println(sb1.toString());
+
         Scanner scanner = new Scanner(System.in);
         int[] purchase = new int[products.length];
 
 
         while (true) {
-            System.out.println("Введите через пробел номер товара и количество товара или введите 'end' для завершения покупки");
+            System.out.println("Введите через пробел номер товара и количество товара или введите 'end' для завершения покупки:");
             String input = scanner.nextLine();
             if ("end".equals(input)) {
                 break;
@@ -60,9 +76,9 @@ public class Product {
             // к примеру, в корзине было 2, добавили -7, потом добавили +5
             // тогда итоговый результат будет +5, так как при добалении -7 корзина стала равна нулю
 
-            if(productCount == 0) { // если кол-во товара ввели ноль:
+            if (productCount == 0) { // если кол-во товара ввели ноль:
                 purchase[productNum] = productCount; //то в массиве кол-во товара становится ноль
-            } else if(productCount < 0) { //если кол-во товара ввели со знаком минус:
+            } else if (productCount < 0) { //если кол-во товара ввели со знаком минус:
                 purchase[productNum] = Math.max(purchase[productNum] + productCount, 0); // складываем текущее плюсовое кол-во с введенным отрицательным, результат записываем в массив. Если результат отрицательный - меняем на ноль
             } else { //если кол-во товара ввели положительное
                 purchase[productNum] += productCount; //прибавляем его к текущему
@@ -72,6 +88,7 @@ public class Product {
         System.out.println();
         System.out.println("Ваша корзина:");
         int totalSum = 0;
+        StringBuilder sb2 = new StringBuilder();
         for (int i = 0; i < purchase.length; i++) {
             if (purchase[i] > 0) {
                 int amount;
@@ -81,15 +98,22 @@ public class Product {
                 } else {
                     amount = purchase[i] * prices[i];
                 }
-                System.out.println(
-                        products[i] + " " +
-                                purchase[i] + " шт " +
-                                prices[i] + " руб/шт " +
-                                amount + " руб в сумме");
+                sb2.append(products[i]);
+                sb2.append(" ");
+                sb2.append(purchase[i]);
+                sb2.append(" шт ");
+                sb2.append(prices[i]);
+                sb2.append(" руб/шт ");
+                sb2.append(amount);
+                sb2.append(" руб в сумме\n");
+
                 totalSum += amount;
             }
         }
-        System.out.println("Итого " + totalSum + " руб");
+        sb2.append("Итого: ");
+        sb2.append(totalSum);
+        sb2.append(" руб");
+        System.out.println(sb2.toString());
     }
 
     public boolean isSale(String product) {
