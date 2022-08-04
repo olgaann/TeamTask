@@ -16,6 +16,14 @@ public class Product {
         this.sale = sale;
     }
 
+    public void setPrices(double[] prices) {
+        this.prices = prices;
+    }
+
+    public void setProducts(String[] products) {
+        this.products = products;
+    }
+
     public void productBasket() {
         System.out.println("Список возможных товаров для покупки:");
         for (int i = 0; i < products.length; i++) {
@@ -68,24 +76,7 @@ public class Product {
             } else { //если кол-во товара ввели положительное
                 purchase[productNum] += productCount; //прибавляем его к текущему
             }
-
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         System.out.println();
         System.out.println("Ваша корзина:");
         double totalSum = 0;
@@ -93,6 +84,7 @@ public class Product {
         for (int i = 0; i < purchase.length; i++) {
             if (purchase[i] > 0) {
                 double amount;
+                // если товар участвует в акции, каждый третий экземпляр не учитывается в расчете суммы
                 if (purchase[i] > 2 && isSale(products[i])) {
                     amount = ((purchase[i] - purchase[i] / 3) * prices[i]);
                     prices[i] = amount / purchase[i];
