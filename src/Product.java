@@ -1,11 +1,12 @@
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Product {
     private String[] products;
-    private int[] prices;
+    private double[] prices;
     private String[] sale;
 
-    public Product(String[] products, int[] prices, String[] sale) {
+    public Product(String[] products, double[] prices, String[] sale) {
         this.products = products;
         this.prices = prices;
         this.sale = sale;
@@ -15,15 +16,24 @@ public class Product {
         this.sale = sale;
     }
 
+    public void setPrices(double[] prices) {
+        this.prices = prices;
+    }
+
+    public void setProducts(String[] products) {
+        this.products = products;
+    }
+
     public void productBasket() {
         StringBuilder sb1 = new StringBuilder();
         sb1.append("Список возможных товаров для покупки: \n");
+        DecimalFormat dfm = new DecimalFormat("0.00");
         for (int i = 0; i < products.length; i++) {
             sb1.append(i + 1);
             sb1.append(". ");
             sb1.append(products[i]);
             sb1.append(" ");
-            sb1.append(prices[i]);
+            sb1.append(dfm.format(prices[i]));
             sb1.append(" руб/шт\n");
         }
         sb1.append("\nАкция 3 по цене 2 на товары: \n");
@@ -41,7 +51,6 @@ public class Product {
         Scanner scanner = new Scanner(System.in);
         int[] purchase = new int[products.length];
 
-
         while (true) {
             System.out.println("Введите через пробел номер товара и количество товара или введите 'end' для завершения покупки:");
             String input = scanner.nextLine();
@@ -53,7 +62,7 @@ public class Product {
             int productCount;
 
             if (parts.length != 2) {
-                System.out.println("Некорректный ввод данных. Вводите два числа через пробел");
+                System.out.println("Некорректный ввод данных");
                 continue;
             }
             try {
@@ -83,15 +92,16 @@ public class Product {
             } else { //если кол-во товара ввели положительное
                 purchase[productNum] += productCount; //прибавляем его к текущему
             }
-
         }
         System.out.println();
         System.out.println("Ваша корзина:");
-        int totalSum = 0;
         StringBuilder sb2 = new StringBuilder();
+        double totalSum = 0;
+        DecimalFormat df = new DecimalFormat("0.00");
         for (int i = 0; i < purchase.length; i++) {
             if (purchase[i] > 0) {
-                int amount;
+                double amount;
+                // если товар участвует в акции, каждый третий экземпляр не учитывается в расчете суммы
                 if (purchase[i] > 2 && isSale(products[i])) {
                     amount = ((purchase[i] - purchase[i] / 3) * prices[i]);
                     prices[i] = amount / purchase[i];
@@ -102,18 +112,19 @@ public class Product {
                 sb2.append(" ");
                 sb2.append(purchase[i]);
                 sb2.append(" шт ");
-                sb2.append(prices[i]);
+                sb2.append(df.format(prices[i]));
                 sb2.append(" руб/шт ");
-                sb2.append(amount);
+                sb2.append(df.format(amount));
                 sb2.append(" руб в сумме\n");
 
                 totalSum += amount;
             }
         }
         sb2.append("Итого: ");
-        sb2.append(totalSum);
+        sb2.append(df.format(totalSum));
         sb2.append(" руб");
         System.out.println(sb2.toString());
+
     }
 
     public boolean isSale(String product) {
@@ -124,5 +135,4 @@ public class Product {
         }
         return false;
     }
-
 }
