@@ -5,7 +5,7 @@ public class Main {
         double[] prices = {100.01, 75.50, 110, 800};
         String[] foodSale = {"Яблоки", "Сыр"};
         Product food = new Product(products, prices, foodSale);
-        food.productBasket();
+        food.productBin();
 
 
     }

@@ -24,7 +24,7 @@ public class Product {
         this.products = products;
     }
 
-    public void productBasket() {
+    public void productBin() {
         StringBuilder sb1 = new StringBuilder();
         sb1.append("Список возможных товаров для покупки: \n");
         DecimalFormat dfm = new DecimalFormat("0.00");
